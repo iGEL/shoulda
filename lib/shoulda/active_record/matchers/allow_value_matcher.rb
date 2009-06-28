@@ -37,7 +37,7 @@ module Shoulda # :nodoc:
         def matches?(instance)
           @instance = instance
           if Symbol === @expected_message
-            @expected_message = default_error_message(@expected_message)
+            @expected_message = default_error_message(@expected_message, :attribute => @attribute.to_s.humanize, :value => @value, :model => @instance.class.to_s)
           end
           @instance.send("#{@attribute}=", @value)
           !errors_match?

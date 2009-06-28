@@ -83,4 +83,75 @@ class ValidatePresenceOfMatcherTest < ActiveSupport::TestCase # :nodoc:
     end
   end
 
+  context "raise no error with i18n messages using {{attribute}}" do
+    setup do
+      I18n.backend.send :merge_translations, :en, {"activerecord" => {"errors" => {"messages" => {
+              "blank" => "{{attribute}} can't be blank"
+            }}}}
+      define_model :example, :attr => :string do
+        validates_format_of :attr, :with => /abc/
+      end
+      @model = Example.new
+    end
+
+    teardown do
+      I18n.backend.send :merge_translations, :en, {"activerecord" => {"errors" => {"messages" => {
+              "blank" => "can't be blank"
+            }}}}
+    end
+
+    should "not raise any error" do
+      assert_nothing_raised do
+        assert_rejects validate_presence_of(:attr), @model
+      end
+    end
+  end
+
+  context "raise no error with i18n messages using {{value}}" do
+    setup do
+      I18n.backend.send :merge_translations, :en, {"activerecord" => {"errors" => {"messages" => {
+              "blank" => "{{value}} is blank"
+            }}}}
+      define_model :example, :attr => :string do
+        validates_format_of :attr, :with => /abc/
+      end
+      @model = Example.new
+    end
+
+    teardown do
+      I18n.backend.send :merge_translations, :en, {"activerecord" => {"errors" => {"messages" => {
+              "blank" => "can't be blank"
+            }}}}
+    end
+
+    should "not raise any error" do
+      assert_nothing_raised do
+        assert_rejects validate_presence_of(:attr), @model
+      end
+    end
+  end
+
+  context "raise no error with i18n messages using {{model}}" do
+    setup do
+      I18n.backend.send :merge_translations, :en, {"activerecord" => {"errors" => {"messages" => {
+              "blank" => "{{model}} doesn't allow this field to be blank"
+            }}}}
+      define_model :example, :attr => :string do
+        validates_format_of :attr, :with => /abc/
+      end
+      @model = Example.new
+    end
+
+    teardown do
+      I18n.backend.send :merge_translations, :en, {"activerecord" => {"errors" => {"messages" => {
+              "blank" => "can't be blank"
+            }}}}
+    end
+
+    should "not raise any error" do
+      assert_nothing_raised do
+        assert_rejects validate_presence_of(:attr), @model
+      end
+    end
+  end
 end
