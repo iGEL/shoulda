@@ -89,6 +89,9 @@ class PostsControllerTest < ActionController::TestCase
       should_fail do
         should_set_the_flash_to /.*/
       end
+      should_fail do
+        should_assign_to(:post) { false}
+      end
     end
 
     context "on GET to #new" do

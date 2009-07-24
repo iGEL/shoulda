@@ -80,7 +80,7 @@ module Shoulda # :nodoc:
         end
 
         def equal_to_expected_value?
-          return true unless @expected_value
+          return true if @expected_value.nil?
           if @expected_value == assigned_value
             @negative_failure_message =
               "Didn't expect action to assign #{@expected_value.inspect} " <<

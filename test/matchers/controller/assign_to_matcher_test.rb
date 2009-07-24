@@ -30,6 +30,9 @@ class AssignToMatcherTest < ActionController::TestCase # :nodoc:
     should "reject assigning to another variable" do
       assert_rejects assign_to(:other), @controller
     end
-  end
 
+    should "reject assigning to that variable with false" do
+      assert_rejects assign_to(:var).with(false), @controller
+    end
+  end
 end
